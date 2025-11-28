@@ -62,7 +62,7 @@ export const VideoCard = ({ video }: { video: VideoDetails }) => {
             >
               {video.title}
             </p>
-            <p className="text-xs text-muted-foreground">{video.author_name}</p>
+            <p className="text-xs text-muted-foreground line-clamp-1">{video.author_name}</p>
           </div>
           <div className="flex items-center gap-2 mt-1">
             <Button
