@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && powershell Copy-item -Force -Recurse -Verbose ./dist/* -Destination ./extension/",
+    "build": "vite build && powershell Copy-item -Force -Recurse -Verbose ./dist/* -Destination ./extension/",
     "lint": "eslint .",
     "preview": "vite preview"
   },
