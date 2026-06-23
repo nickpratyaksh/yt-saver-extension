@@ -11,8 +11,7 @@ import useVideosState from "@/lib/videosState";
 import useFiltersState from "@/lib/filtersState";
 import { sortVideos, searchVideos } from "@/lib/utils";
 export default function Home() {
-  const { videosDetails, getVideosDetails, getVideos, videos , isLoading } =
-    useVideosState();
+  const { getVideos, videos, isLoading } = useVideosState();
   const {
     isSearching,
     searchQuery,
@@ -29,10 +28,10 @@ export default function Home() {
   };
 
   const renderVideos = () => {
-    let filteredVideos = [...videosDetails];
+    let filteredVideos = [...videos];
     if (searchQuery.length > 0 && isSearching) {
       filteredVideos = searchVideos({
-        videos: videosDetails,
+        videos: videos,
         query: searchQuery,
       });
     }
@@ -42,7 +41,7 @@ export default function Home() {
     });
     if (showFavourites)
       filteredVideos = filteredVideos.filter(
-        (item) => item.itemDetails.isFavourite
+        (item) => item.itemDetails.isFavourite,
       );
     if (filteredVideos.length === 0)
       return <div className="text-center">No videos!</div>;
@@ -56,14 +55,6 @@ export default function Home() {
   useEffect(() => {
     getVideos();
   }, []);
-
- useEffect(() => {
-    // videos variable updated? Yes, but actually no.
-    setTimeout(() => {
-      // videos variable updated? Yes.
-      getVideosDetails();
-    }, 10);
-  }, [videos]);
 
   return (
     <div className="w-96 h-[32rem] flex flex-col p-4 gap-4 border rounded-md shadow-lg">

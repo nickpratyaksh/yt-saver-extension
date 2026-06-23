@@ -22,6 +22,22 @@ function saveVideos(videos, callback) {
   chrome.storage.local.set({ videos: JSON.stringify(videos) }, callback);
 }
 
+// Utility function to get video details from the youtube api
+async function getVideoDetails(videoUrl) {
+  try {
+    const response = await fetch(
+      `https://www.youtube.com/oembed?url=${videoUrl}&format=json`,
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to load video:", item);
+  }
+}
+
 // Function to handle saving a video
 function handleSaveVideo(sendResponse) {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -30,14 +46,19 @@ function handleSaveVideo(sendResponse) {
       getVideos((videos) => {
         const exists = videos.some((video) => video.url === activeTab.url);
         if (!exists) {
-          videos.push({
-            _id: generateId(),
-            url: activeTab.url,
-            isFavourite: false,
-            dateAdded: new Date(),
-            status: "unwatched",
+          getVideoDetails(activeTab.url).then((videoDetails) => {
+            videos.push({
+              ...videoDetails,
+              itemDetails: {
+                _id: generateId(),
+                url: activeTab.url,
+                isFavourite: false,
+                dateAdded: new Date(),
+                status: "unwatched",
+              },
+            });
+            saveVideos(videos, () => sendResponse({ status: "success" }));
           });
-          saveVideos(videos, () => sendResponse({ status: "success" }));
         } else {
           sendResponse({ status: "error", message: "Video already saved." });
         }
@@ -63,7 +84,9 @@ function handleCheckVideo(sendResponse) {
     const activeTab = tabs[0];
     if (activeTab) {
       getVideos((videos) => {
-        const exists = videos.some((video) => video.url === activeTab.url);
+        const exists = videos.some(
+          (video) => video.itemDetails.url === activeTab.url,
+        );
         sendResponse({ exists });
       });
     } else {

@@ -6,11 +6,17 @@ import useVideosState from "@/lib/videosState";
 import { useState } from "react";
 
 export default function FavouriteButton({ video }: { video: Video }) {
-  const [isFavourite, setIsFavourite] = useState(video.isFavourite);
+  const [isFavourite, setIsFavourite] = useState(video.itemDetails.isFavourite);
   const { updateVideo } = useVideosState();
   const handleFavorite = () => {
     setIsFavourite(!isFavourite);
-    updateVideo({ ...video, isFavourite: !video.isFavourite });
+    updateVideo({
+      ...video,
+      itemDetails: {
+        ...video.itemDetails,
+        isFavourite: !video.itemDetails.isFavourite,
+      },
+    });
   };
 
   return (

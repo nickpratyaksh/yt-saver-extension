@@ -1,13 +1,11 @@
 export type Video = {
-  _id: string;
-  url: string;
-  dateAdded: string;
-  isFavourite: boolean;
-  status: "Watched" | "Unwatched";
-};
-
-export type VideoDetails = {
-  itemDetails: Video;
+  itemDetails: {
+    _id: string;
+    url: string;
+    dateAdded: string;
+    isFavourite: boolean;
+    status: "Watched" | "Unwatched";
+  };
   title: string;
   author_name: string;
   author_url: string;

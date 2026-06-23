@@ -1,10 +1,10 @@
-import { VideoDetails } from "@/lib/types";
+import { Video } from "@/lib/types";
 import { Button } from "../ui/button";
 import { PlayCircle } from "lucide-react";
 import { DeleteAlertDialog } from "./DeleteAlertDialog";
 import FavouriteButton from "./FavouriteButton";
 
-export const VideoCard = ({ video }: { video: VideoDetails }) => {
+export const VideoCard = ({ video }: { video: Video }) => {
   const handlePlay = () => {
     window.open(video.itemDetails.url, "_blank");
   };
@@ -39,7 +39,7 @@ export const VideoCard = ({ video }: { video: VideoDetails }) => {
               <PlayCircle className="h-4 w-4 mr-1 text-green-500" />
               Play
             </Button>
-            <FavouriteButton video={video.itemDetails} />
+            <FavouriteButton video={video} />
             <DeleteAlertDialog videoId={video.itemDetails._id} />
           </div>
         </div>
@@ -62,7 +62,9 @@ export const VideoCard = ({ video }: { video: VideoDetails }) => {
             >
               {video.title}
             </p>
-            <p className="text-xs text-muted-foreground line-clamp-1">{video.author_name}</p>
+            <p className="text-xs text-muted-foreground line-clamp-1">
+              {video.author_name}
+            </p>
           </div>
           <div className="flex items-center gap-2 mt-1">
             <Button
@@ -74,7 +76,7 @@ export const VideoCard = ({ video }: { video: VideoDetails }) => {
               <PlayCircle className="h-4 w-4 mr-1 text-green-500" />
               Play
             </Button>
-            <FavouriteButton video={video.itemDetails} />
+            <FavouriteButton video={video} />
             <DeleteAlertDialog videoId={video.itemDetails._id} />
           </div>
         </div>

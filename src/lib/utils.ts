@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { VideoDetails } from "./types";
+import { Video } from "./types";
 import Fuse from "fuse.js";
 
 export function cn(...inputs: ClassValue[]) {
@@ -11,7 +11,7 @@ export function searchVideos({
   videos,
   query,
 }: {
-  videos: VideoDetails[];
+  videos: Video[];
   query: string;
 }) {
   if (query.trim() === "") return videos;
@@ -28,7 +28,7 @@ export function sortVideos({
   videos,
   sortBy,
 }: {
-  videos: VideoDetails[];
+  videos: Video[];
   sortBy: string;
 }) {
   if (sortBy === "name") {
@@ -43,7 +43,7 @@ export function sortVideos({
     const result = videos.sort(
       (a, b) =>
         new Date(b.itemDetails.dateAdded).getTime() -
-        new Date(a.itemDetails.dateAdded).getTime()
+        new Date(a.itemDetails.dateAdded).getTime(),
     );
     return result;
   }
